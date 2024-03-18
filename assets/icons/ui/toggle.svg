@@ -1,0 +1,5 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <!-- <path class="chevron" d="M6 9L12 15L18 9" /> -->
+      <path class="chevron" d="M4,16 L12,8 L20,16" />
+      <path class="close" d="M6.7583 17.2426L12.0009 12M12.0009 12L17.2435 6.75739M12.0009 12L6.7583 6.75739M12.0009 12L17.2435 17.2426" />
+</svg>

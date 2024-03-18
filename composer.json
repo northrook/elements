@@ -1,0 +1,37 @@
+{
+  "name": "northrook/elements",
+  "description": "An element library.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Martin",
+      "email": "mn@northrook.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Northrook\\Elements\\": "src/",
+      "Northrook\\Element\\": "src/Element/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Northrook\\Elements\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=8.1",
+    "northrook/types": "dev-main",
+    "northrook/logger": "dev-main",
+    "ext-fileinfo": "*"
+  },
+  "require-dev": {
+    "northrook/symfony-core-bundle": "dev-main",
+    "phpunit/phpunit": "^9.5"
+  }
+}

@@ -1,0 +1,7 @@
+<svg width="16" height="16" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5" fill="none"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path class="top" d="M2 3L9 3"/>
+    <path class="center" d="M2 8H5"/>
+    <path class="bottom" d="M2 13L9 13"/>
+    <path class="chevron" d="M9 8L14 4V12L9 8Z" stroke-width="1" fill="currentColor"/>
+</svg>
