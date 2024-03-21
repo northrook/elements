@@ -2,31 +2,20 @@
 
 declare( strict_types = 1 );
 
-namespace Northrook\Elements;
+namespace Northrook\Elements\Element;
 
 
-use JetBrains\PhpStorm\Pure;
-use Northrook\Elements\Element\Attribute;
-use Northrook\Elements\Element\Content;
-use Northrook\Elements\Element\Html;
-use Northrook\Elements\Element\Tag;
-use Northrook\Elements\Element\Tooltip;
 use Northrook\Support\Sort;
 
 
 /**
  * @property Attribute $class
  * @property Attribute $style
- * @property Tooltip   $tooltip
- *
  *
  */
-class Element
+class Attributes
 {
-    public const TAG = null;
-    protected array     $content    = [];
-    protected array     $attributes = [];
-    public readonly Tag $tag;
+    protected array $attributes = [];
 
     public function __construct( ...$set ) {
         $this->assignElementAttributes( $set );
@@ -41,43 +30,18 @@ class Element
             return new Attribute( $this->attributes, $name, $this, true );
         }
 
+        if ( array_key_exists( $name, $this->attributes ) ) {
+            return $this->attributes[ $name ];
+        }
+
         return $this->$name;
     }
 
-    public function tooltip( string $content ) : self {
-        $this->attributes[ 'tooltip' ] = new Tooltip( $content );
-        return $this;
-    }
-
-    protected function onConstrict() : void {}
-
-    protected function onPrint() : void {}
-
-    public function print( bool $pretty = false ) : string {
-
-        $this->onPrint();
-
-        $element = [
-            '<' . $this->getElementAttributes() . '>',
-            Content::render( $this->content ),
-            $this->tag->isSelfClosing ? '</' . $this->tag . '>' : '',
-        ];
-
-        $element = implode( '', array_filter( $element ) );
-
-        return $pretty ? Html::pretty( $element ) : $element;
-    }
-
     public function __toString() : string {
-        return $this->print();
+        return implode( ' ', $this->getAttributes() );
     }
 
-    protected function getElementAttributes( bool $implode = true ) : array | string {
-        $attributes = array_filter( [ $this->tag, ... $this->getAttributes() ] );
-        return $implode ? implode( ' ', $attributes ) : $attributes;
-    }
-
-    private function getAttributes( bool $raw = false ) : array {
+    protected function getAttributes( bool $raw = false ) : array {
 
         $attributes = [];
 
@@ -114,22 +78,8 @@ class Element
 
     final protected function assignElementAttributes( array $set ) : self {
 
-        if ( array_key_exists( 'tag', $set ) ) {
-            $this->tag = new Tag( $set[ 'tag' ] );
-            unset( $set[ 'tag' ] );
-        }
-        else {
-            $this->tag = new Tag( $this->autoTag() );
-        }
-
-//        dd( $set );
         foreach ( $set as $name => $value ) {
-            if ( $name == 'content' || $name == 'innerHTML' ) {
-                $this->content[ $name ] = $value;
-            }
-            else {
-                $this->set( $name, $value );
-            }
+            $this->set( $name, $value );
         }
 
         return $this;
@@ -149,8 +99,16 @@ class Element
         return $this;
     }
 
+    public function id( ?string $string = null ) : ?string {
+        return $string ? Attribute::id( $string ) : $this->getAttribute( 'id' );
+    }
+
+    public function class( ?string $string = null ) : ?string {
+        return implode( ' ', $this->getAttribute( 'class' ) + [ $string ] );
+    }
+
     public function getAttribute( string $name ) : mixed {
-        return $this->attributes[ $this->key( $name ) ];
+        return $this->attributes[ $this->key( $name ) ] ?? null;
     }
 
     public function remove( string $name ) : self {
@@ -161,22 +119,5 @@ class Element
     private function key( string $key ) : string {
         return str_replace( '_', '-', strtolower( trim( $key ) ) );
     }
-
-    /**
-     * Get a tag based on the .
-     *
-     * @return string
-     */
-    #[Pure( true )]
-    private function autoTag() : string {
-
-        if ( $this::TAG ) {
-            return $this::TAG;
-        }
-
-        $autoTag = substr( get_called_class(), strrpos( get_called_class(), '\\' ) + 1 );
-        return Tag::isValidTag( $autoTag ) ? $autoTag : 'div';
-    }
-
 
 }

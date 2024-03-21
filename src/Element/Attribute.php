@@ -9,10 +9,10 @@ use ReflectionClass;
 class Attribute
 {
     public function __construct(
-        private array            $attributes,
-        private readonly string  $attribute,
-        private readonly Element $element,
-        private readonly bool    $keys = false,
+        private array                         $attributes,
+        private readonly string               $attribute,
+        private readonly Element | Attributes $element, // @todo : Create AttributeInterface for this
+        private readonly bool                 $keys = false,
     ) {
 //        dump( "Parsing: $this->attribute" );
     }
