@@ -15,6 +15,7 @@ use Northrook\Support\Sort;
 
 
 /**
+ * @property ?string   $id
  * @property Attribute $class
  * @property Attribute $style
  * @property Tooltip   $tooltip
