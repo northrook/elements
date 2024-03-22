@@ -5,16 +5,19 @@ namespace Northrook\Elements\Element;
 use Northrook\Elements\Element;
 use Northrook\Logger\Log;
 use ReflectionClass;
+use Stringable;
 
-class Attribute
+class Attribute implements Stringable
 {
     public function __construct(
         private array                         $attributes,
         private readonly string               $attribute,
         private readonly Element | Attributes $element, // @todo : Create AttributeInterface for this
         private readonly bool                 $keys = false,
-    ) {
-//        dump( "Parsing: $this->attribute" );
+    ) {}
+
+    public function __toString() : string {
+        return implode( ' ', $this->attributes[ $this->attribute ] );
     }
 
     public function add( array | string $attribute ) : self {
