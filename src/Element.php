@@ -41,6 +41,10 @@ class Element
         if ( 'style' === $name ) {
             return new Attribute( $this->attributes, $name, $this, true );
         }
+        
+        if ( array_key_exists( $name, $this->attributes ) ) {
+            return $this->attributes[ $name ];
+        }
 
         return $this->$name;
     }
