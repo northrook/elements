@@ -11,6 +11,7 @@ use Northrook\Support\Sort;
 /**
  * @property Attribute $class
  * @property Attribute $style
+ * @property array     $attributes
  *
  */
 class Attributes
@@ -22,6 +23,11 @@ class Attributes
     }
 
     final public function __get( string $name ) {
+
+        if ( 'attributes' === $name ) {
+            return $this->getAttributes( true );
+        }
+
         if ( 'class' === $name ) {
             return new Attribute( $this->attributes, $name, $this );
         }
@@ -46,6 +52,10 @@ class Attributes
         $attributes = [];
 
         foreach ( $this->attributes as $name => $value ) {
+
+            if ( 'id' === $name && !$value ) {
+                continue;
+            }
 
             if ( 'style' === $name ) {
                 foreach ( $value as $key => $val ) {
