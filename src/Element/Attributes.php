@@ -16,7 +16,7 @@ use Northrook\Support\Sort;
  */
 class Attributes
 {
-    protected array $attributes = [];
+    protected array $attribute = [];
 
     public function __construct( ...$set ) {
         $this->assignElementAttributes( $set );
@@ -29,15 +29,15 @@ class Attributes
         }
 
         if ( 'class' === $name ) {
-            return new Attribute( $this->attributes, $name, $this );
+            return new Attribute( $this->attribute, $name, $this );
         }
 
         if ( 'style' === $name ) {
-            return new Attribute( $this->attributes, $name, $this, true );
+            return new Attribute( $this->attribute, $name, $this, true );
         }
 
-        if ( array_key_exists( $name, $this->attributes ) ) {
-            return $this->attributes[ $name ];
+        if ( array_key_exists( $name, $this->attribute ) ) {
+            return $this->attribute[ $name ];
         }
 
         return $this->$name;
@@ -51,7 +51,7 @@ class Attributes
 
         $attributes = [];
 
-        foreach ( $this->attributes as $name => $value ) {
+        foreach ( $this->attribute as $name => $value ) {
 
             if ( 'id' === $name && !$value ) {
                 continue;
@@ -96,11 +96,11 @@ class Attributes
     }
 
     public function has( string $name ) : bool {
-        return array_key_exists( $name, $this->attributes );
+        return array_key_exists( $name, $this->attribute );
     }
 
     public function set( string $name, mixed $value ) : self {
-        $this->attributes[ $this->key( $name ) ] = match ( $this->key( $name ) ) {
+        $this->attribute[ $this->key( $name ) ] = match ( $this->key( $name ) ) {
             'id'    => Attribute::id( $value ),
             'class' => Attribute::classes( $value ),
             'style' => Attribute::styles( $value ),
@@ -118,11 +118,11 @@ class Attributes
     }
 
     public function getAttribute( string $name ) : mixed {
-        return $this->attributes[ $this->key( $name ) ] ?? null;
+        return $this->attribute[ $this->key( $name ) ] ?? null;
     }
 
     public function remove( string $name ) : self {
-        unset( $this->attributes[ $this->key( $name ) ] );
+        unset( $this->attribute[ $this->key( $name ) ] );
         return $this;
     }
 
