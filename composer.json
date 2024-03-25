@@ -11,8 +11,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Northrook\\Elements\\": "src/",
-      "Northrook\\Element\\": "src/Element/"
+      "Northrook\\Elements\\": "src/"
     }
   },
   "autoload-dev": {
